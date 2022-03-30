@@ -5,7 +5,7 @@ use strum::EnumString;
 pub enum Lang {
     #[strum(serialize = "auto")]
     #[serde(rename = "auto")]
-    Auto, // auto detect
+    auto, // auto detect
 
     DE,
     EN,
@@ -35,7 +35,7 @@ pub enum Lang {
 
 impl Default for Lang {
     fn default() -> Self {
-        Lang::Auto
+        Lang::auto
     }
 }
 
@@ -43,7 +43,7 @@ impl Lang {
     pub fn description(&self) -> &'static str {
         let lang = *self;
         match lang {
-            Lang::Auto => "自动检测",
+            Lang::auto => "自动检测",
             Lang::DE => "德语",
             Lang::EN => "英语",
             Lang::ES => "西班牙语",
@@ -73,7 +73,7 @@ impl Lang {
 
     pub fn lang_list_with_auto() -> Vec<Lang> {
         vec![
-            Lang::Auto,
+            Lang::auto,
             Lang::EN,
             Lang::ZH,
             Lang::ES,

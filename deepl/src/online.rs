@@ -24,7 +24,7 @@ impl Req {
 #[derive(Deserialize, Debug)]
 struct Resp {
     code: i32,
-    result: String,
+    data: String,
 }
 
 pub async fn translate_async(
@@ -32,14 +32,21 @@ pub async fn translate_async(
     target_lang: Lang,
     source_lang: Lang,
 ) -> Result<String, Box<dyn std::error::Error>> {
-    let target_lang = if target_lang == Lang::Auto {
+    let target_lang = if target_lang == Lang::auto {
         Lang::ZH
     } else {
         target_lang
     };
     let req = Req::new(text, source_lang, target_lang);
     let client = reqwest::Client::new();
-
+    let resp = client
+        .post(get_online_api())
+        .json(&req)
+        .send()
+        .await?
+        .text()
+        .await;
+    println!("{:#?}", resp);
     let resp = client
         .post(get_online_api())
         .json(&req)
@@ -47,10 +54,10 @@ pub async fn translate_async(
         .await?
         .json::<Resp>()
         .await;
-
+println!("{:#?}", resp);
     if let Ok(data) = resp {
         if data.code == 200 {
-            return Ok(data.result);
+            return Ok(data.data);
         }
     }
     Ok("翻译接口失效，请重试或者使用local版".into())

@@ -159,7 +159,7 @@ cfg_if::cfg_if! {
                     let _ = match deepl::translate(text, target_lang, source_lang) {
                         Ok(text) => event_tx_trasnlate.try_send(ui::Event::TextSet(text)),
                         Err(_err) => {
-                            event_tx_trasnlate.try_send(ui::Event::TextSet("翻译接口失效，请更新最新版".into()))
+                            event_tx_trasnlate.try_send(ui::Event::TextSet("333翻译接口失效，请更新最新版".into()))
                         }
                     };
                 }
@@ -169,32 +169,40 @@ cfg_if::cfg_if! {
             thread::spawn(move || {
                 // let last_move =
                 if let Err(error) = rdev::listen(move |event| {
+                    println!("My callback {:?}", event);
+                    println!("123a");
                     match event.event_type {
                         rdev::EventType::ButtonPress(button) => {
+                             println!("1111");
                             if button == rdev::Button::Left {
                                 let _ = event_tx.try_send(ui::Event::MouseEvent(event.event_type));
                             }
                         }
                         rdev::EventType::ButtonRelease(button) => {
+                             println!("222");
                             if button == rdev::Button::Left {
+                                println!("222111a");
                                 let _ = event_tx.try_send(ui::Event::MouseEvent(event.event_type));
                             }
                         }
                         rdev::EventType::MouseMove { x: _, y: _ } => {
+                             println!("333");
                             let _ = event_tx.try_send(ui::Event::MouseEvent(event.event_type));
                         }
-                        _ => {}
+                        _ => {
+                             println!("444a");
+                        }
                     };
                 }) {
                     warn!("rdev listen error: {:?}", error)
                 }
             });
 
-            let text = match ctrl_c() {
-                Some(text) => text,
-                None => "".into()
-            };
-
+            // let text = match ctrl_c() {
+            //     Some(text) => text,
+            //     None => "".into()
+            // };
+            let text = String::from("test");
             // embed ico file
             let ioc_buf = Cursor::new(include_bytes!("../res/copy-translator.ico"));
             let icon_dir = ico::IconDir::read(ioc_buf).unwrap();

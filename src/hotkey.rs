@@ -65,14 +65,19 @@ impl HotkeySetting {
 }
 
 pub fn ctrl_c() -> Option<String> {
+    thread::sleep(Duration::from_secs(2));
+
     let mut enigo = Enigo::new();
     enigo.key_down(Key::Control);
-    enigo.key_click(Key::Layout('c'));
-    enigo.key_up(Key::Control);
-    thread::sleep(Duration::from_millis(200));
-    if let Ok(text) = cli_clipboard::get_contents() {
-        Some(text)
-    } else {
-        None
-    }
+    thread::sleep(Duration::from_millis(2000));
+
+    // enigo.key_click(Key::Layout('c'));
+    // enigo.key_up(Key::Control);
+    // thread::sleep(Duration::from_millis(2000));
+    // if let Ok(text) = cli_clipboard::get_contents() {
+    //     Some(text)
+    // } else {
+    //     None
+    // }
+    Some(String::from("suwnejie"))
 }

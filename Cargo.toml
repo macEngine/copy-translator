@@ -3,6 +3,8 @@ name = "copy-translator"
 version = "0.2.4"
 edition = "2021"
 build = "build.rs"
+[profile.dev]
+split-debuginfo = "packed"
 
 [profile.release]
 lto = true
@@ -40,7 +42,7 @@ ProductVersion = "0.2.4"
 FileDescription = "CopyTranslator: 简单、轻量、好用的划词翻译软件，利用DeepL翻译"
 
 [features]
-default = ["local"]
+default = ["online"]
 online = ["deepl/online"]
 local = ["deepl/local"]
 persistence = ["eframe/persistence", "egui/persistence", "egui_glium/persistence", "epi/persistence"]

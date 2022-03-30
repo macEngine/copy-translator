@@ -91,7 +91,7 @@ impl MyApp {
         hk_setting.register_hotkey(tx);
         Self {
             text,
-            source_lang: deepl::Lang::Auto,
+            source_lang: deepl::Lang::auto,
             target_lang: deepl::Lang::ZH,
 
             lang_list_with_auto: deepl::Lang::lang_list_with_auto(),
@@ -122,6 +122,7 @@ impl epi::App for MyApp {
         _frame: &mut epi::Frame<'_>,
         _storage: Option<&dyn epi::Storage>,
     ) {
+        // println!("setup");
         font::install_fonts(_ctx);
 
         if self.text.is_empty() {
@@ -136,6 +137,7 @@ impl epi::App for MyApp {
     }
 
     fn update(&mut self, ctx: &egui::CtxRef, frame: &mut epi::Frame<'_>) {
+        // println!("update");
         let Self {
             text,
             source_lang,
@@ -219,7 +221,7 @@ impl epi::App for MyApp {
 
                     if ui.add(egui::Button::new(" ⇌ ").frame(false)).clicked() {
                         let tmp_target_lang = *target_lang;
-                        *target_lang = if *source_lang == deepl::Lang::Auto {
+                        *target_lang = if *source_lang == deepl::Lang::auto {
                             deepl::Lang::EN
                         } else {
                             *source_lang
