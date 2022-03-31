@@ -166,37 +166,37 @@ cfg_if::cfg_if! {
             });
 
             // listen for global mouse event
-            thread::spawn(move || {
-                // let last_move =
-                if let Err(error) = rdev::listen(move |event| {
-                    println!("My callback {:?}", event);
-                    println!("123a");
-                    match event.event_type {
-                        rdev::EventType::ButtonPress(button) => {
-                             println!("1111");
-                            if button == rdev::Button::Left {
-                                let _ = event_tx.try_send(ui::Event::MouseEvent(event.event_type));
-                            }
-                        }
-                        rdev::EventType::ButtonRelease(button) => {
-                             println!("222");
-                            if button == rdev::Button::Left {
-                                println!("222111a");
-                                let _ = event_tx.try_send(ui::Event::MouseEvent(event.event_type));
-                            }
-                        }
-                        rdev::EventType::MouseMove { x: _, y: _ } => {
-                             println!("333");
-                            let _ = event_tx.try_send(ui::Event::MouseEvent(event.event_type));
-                        }
-                        _ => {
-                             println!("444a");
-                        }
-                    };
-                }) {
-                    warn!("rdev listen error: {:?}", error)
-                }
-            });
+            // thread::spawn(move || {
+            //     // let last_move =
+            //     if let Err(error) = rdev::listen(move |event| {
+            //         println!("My callback {:?}", event);
+            //         println!("123a");
+            //         match event.event_type {
+            //             rdev::EventType::ButtonPress(button) => {
+            //                  println!("1111");
+            //                 if button == rdev::Button::Left {
+            //                     let _ = event_tx.try_send(ui::Event::MouseEvent(event.event_type));
+            //                 }
+            //             }
+            //             rdev::EventType::ButtonRelease(button) => {
+            //                  println!("222");
+            //                 if button == rdev::Button::Left {
+            //                     println!("222111a");
+            //                     let _ = event_tx.try_send(ui::Event::MouseEvent(event.event_type));
+            //                 }
+            //             }
+            //             rdev::EventType::MouseMove { x: _, y: _ } => {
+            //                  println!("333");
+            //                 let _ = event_tx.try_send(ui::Event::MouseEvent(event.event_type));
+            //             }
+            //             _ => {
+            //                  println!("444a");
+            //             }
+            //         };
+            //     }) {
+            //         warn!("rdev listen error: {:?}", error)
+            //     }
+            // });
 
             // let text = match ctrl_c() {
             //     Some(text) => text,
